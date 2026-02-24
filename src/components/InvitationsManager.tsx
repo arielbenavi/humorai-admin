@@ -8,7 +8,7 @@ interface Invitation {
   id: number
   created_datetime_utc: string
   inviter_id: string | null
-  profiles: { email: string | null } | null
+  profiles: { email: string | null }[] | null
 }
 
 export default function InvitationsManager({ invitations }: { invitations: Invitation[] }) {
@@ -42,7 +42,7 @@ export default function InvitationsManager({ invitations }: { invitations: Invit
                   </div>
                 </td>
                 <td className="px-4 py-3 text-sm text-slate-400">
-                  {inv.profiles?.email ?? inv.inviter_id ?? '—'}
+                  {inv.profiles?.[0]?.email ?? inv.inviter_id ?? '—'}
                 </td>
                 <td className="px-4 py-3 text-xs text-slate-500">{new Date(inv.created_datetime_utc).toLocaleString()}</td>
                 <td className="px-4 py-3">
