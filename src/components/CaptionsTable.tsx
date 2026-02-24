@@ -13,7 +13,7 @@ interface Caption {
   like_count: number
   profile_id: string | null
   image_id: string | null
-  humor_flavors: { slug: string } | null
+  humor_flavors: { slug: string }[] | null
 }
 
 interface CaptionsTableProps {
@@ -147,8 +147,8 @@ export default function CaptionsTable({
                   </td>
                   <td className="px-4 py-3">
                     {caption.humor_flavors ? (
-                      <span className={`inline-block text-xs px-2 py-0.5 rounded-full border ${getFlavorColor(caption.humor_flavors.slug)}`}>
-                        {caption.humor_flavors.slug.replace(/_/g, ' ')}
+                      <span className={`inline-block text-xs px-2 py-0.5 rounded-full border ${getFlavorColor(caption.humor_flavors[0]?.slug)}`}>
+                        {caption.humor_flavors[0]?.slug.replace(/_/g, ' ')}
                       </span>
                     ) : (
                       <span className="text-slate-600 text-xs">—</span>
@@ -246,7 +246,7 @@ export default function CaptionsTable({
               <div>
                 <p className="text-xs text-slate-500 mb-1">Humor Flavor</p>
                 <p className="text-sm text-slate-300">
-                  {selected.humor_flavors?.slug.replace(/_/g, ' ') ?? '—'}
+                  {selected.humor_flavors?.[0]?.slug.replace(/_/g, ' ') ?? '—'}
                 </p>
               </div>
               <div>

@@ -13,7 +13,7 @@ interface Term {
   example: string
   priority: number
   term_type_id: number | null
-  term_types: { name: string } | null
+  term_types: { name: string }[] | null
 }
 
 interface TermType { id: number; name: string }
@@ -100,7 +100,7 @@ export default function TermsManager({ terms, termTypes, page, totalPages, searc
                   </td>
                   <td className="px-4 py-3">
                     <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">
-                      {term.term_types?.name ?? '—'}
+                      {term.term_types?.[0]?.name ?? '—'}
                     </span>
                   </td>
                   <td className="px-4 py-3 text-sm text-slate-400 text-center">{term.priority}</td>

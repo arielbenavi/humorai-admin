@@ -58,10 +58,10 @@ export default async function HumorFlavorsPage() {
                       id: number; order_by: number; description: string | null;
                       llm_temperature: number | null; llm_system_prompt: string | null;
                       llm_user_prompt: string | null;
-                      llm_models: { name: string; provider_model_id: string } | null;
-                      humor_flavor_step_types: { slug: string; description: string } | null;
-                      llm_input_types: { slug: string } | null;
-                      llm_output_types: { slug: string } | null;
+                      llm_models: { name: string; provider_model_id: string }[] | null;
+                      humor_flavor_step_types: { slug: string; description: string }[] | null;
+                      llm_input_types: { slug: string }[] | null;
+                      llm_output_types: { slug: string }[] | null;
                     }) => (
                       <details key={step.id} className="group">
                         <summary className="flex items-center gap-3 px-5 py-3 cursor-pointer list-none hover:bg-slate-800/30 transition-colors">
@@ -69,11 +69,11 @@ export default async function HumorFlavorsPage() {
                             {step.order_by}
                           </span>
                           <span className="text-xs font-medium text-slate-300">
-                            {step.humor_flavor_step_types?.slug ?? 'step'}
+                            {step.humor_flavor_step_types?.[0]?.slug ?? 'step'}
                           </span>
-                          {step.llm_models && (
+                          {step.llm_models?.[0] && (
                             <span className="text-xs text-slate-500 bg-slate-800 px-2 py-0.5 rounded-full">
-                              {step.llm_models.name}
+                              {step.llm_models[0].name}
                             </span>
                           )}
                           {step.description && (
@@ -88,12 +88,12 @@ export default async function HumorFlavorsPage() {
                           <div>
                             <p className="text-xs text-slate-500 mb-1">Input → Output</p>
                             <p className="text-xs text-slate-300">
-                              {step.llm_input_types?.slug ?? '?'} → {step.llm_output_types?.slug ?? '?'}
+                              {step.llm_input_types?.[0]?.slug ?? '?'} → {step.llm_output_types?.[0]?.slug ?? '?'}
                             </p>
                           </div>
                           <div>
                             <p className="text-xs text-slate-500 mb-1">Step Type</p>
-                            <p className="text-xs text-slate-300">{step.humor_flavor_step_types?.description ?? '—'}</p>
+                            <p className="text-xs text-slate-300">{step.humor_flavor_step_types?.[0]?.description ?? '—'}</p>
                           </div>
                           {step.llm_system_prompt && (
                             <div className="col-span-2">

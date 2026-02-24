@@ -9,7 +9,7 @@ import { Plus, Pencil, Trash2, Thermometer } from 'lucide-react'
 interface Model {
   id: number; name: string; provider_model_id: string
   is_temperature_supported: boolean; created_datetime_utc: string
-  llm_provider_id: number; llm_providers: { name: string } | null
+  llm_provider_id: number; llm_providers: { name: string }[] | null
 }
 interface Provider { id: number; name: string }
 
@@ -62,7 +62,7 @@ export default function LLMModelsManager({ models, providers }: { models: Model[
                 <td className="px-4 py-3 text-sm text-white font-medium">{m.name}</td>
                 <td className="px-4 py-3 text-xs text-slate-400 font-mono">{m.provider_model_id}</td>
                 <td className="px-4 py-3">
-                  <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">{m.llm_providers?.name ?? '—'}</span>
+                  <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">{m.llm_providers?.[0]?.name ?? '—'}</span>
                 </td>
                 <td className="px-4 py-3 text-center">
                   {m.is_temperature_supported && <Thermometer className="w-3.5 h-3.5 text-orange-400 mx-auto" />}

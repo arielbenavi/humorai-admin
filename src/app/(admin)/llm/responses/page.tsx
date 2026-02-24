@@ -46,12 +46,12 @@ export default async function LLMResponsesPage({ searchParams }: { searchParams:
                 </td>
                 <td className="px-4 py-3">
                   <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">
-                    {(r.llm_models as { name: string } | null)?.name ?? '—'}
+                    {(r.llm_models as { name: string }[] | null)?.[0]?.name ?? '—'}
                   </span>
                 </td>
                 <td className="px-4 py-3">
                   <span className="text-xs text-purple-400">
-                    {(r.humor_flavors as { slug: string } | null)?.slug ?? '—'}
+                    {(r.humor_flavors as { slug: string }[] | null)?.[0]?.slug ?? '—'}
                   </span>
                 </td>
                 <td className="px-4 py-3 text-sm text-slate-400 text-center">{r.processing_time_seconds}s</td>

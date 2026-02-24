@@ -9,7 +9,7 @@ interface MixItem {
   id: number
   caption_count: number
   humor_flavor_id: number
-  humor_flavors: { slug: string } | null
+  humor_flavors: { slug: string }[] | null
 }
 
 export default function HumorMixManager({ mix }: { mix: MixItem[] }) {
@@ -58,7 +58,7 @@ export default function HumorMixManager({ mix }: { mix: MixItem[] }) {
                 <tr key={item.id} className="hover:bg-slate-800/30 transition-colors">
                   <td className="px-4 py-3">
                     <span className="text-sm text-white font-medium">
-                      {item.humor_flavors?.slug ?? `flavor #${item.humor_flavor_id}`}
+                      {item.humor_flavors?.[0]?.slug ?? `flavor #${item.humor_flavor_id}`}
                     </span>
                   </td>
                   <td className="px-4 py-3">
