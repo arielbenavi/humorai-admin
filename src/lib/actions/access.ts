@@ -7,8 +7,11 @@ import { revalidatePath } from 'next/cache'
 
 export async function createSignupDomain(formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { error } = await supabase.from('allowed_signup_domains').insert({
     apex_domain: (formData.get('apex_domain') as string).toLowerCase().trim(),
+    created_by_user_id: user!.id,
+    modified_by_user_id: user!.id,
   })
   if (error) return { error: error.message }
   revalidatePath('/access/signup-domains')
@@ -27,8 +30,11 @@ export async function deleteSignupDomain(id: number) {
 
 export async function createWhitelistEmail(formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { error } = await supabase.from('whitelist_email_addresses').insert({
     email_address: (formData.get('email_address') as string).toLowerCase().trim(),
+    created_by_user_id: user!.id,
+    modified_by_user_id: user!.id,
   })
   if (error) return { error: error.message }
   revalidatePath('/access/whitelist')

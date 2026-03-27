@@ -7,8 +7,11 @@ import { revalidatePath } from 'next/cache'
 
 export async function createLLMProvider(formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { error } = await supabase.from('llm_providers').insert({
     name: formData.get('name') as string,
+    created_by_user_id: user!.id,
+    modified_by_user_id: user!.id,
   })
   if (error) return { error: error.message }
   revalidatePath('/llm/providers')
@@ -17,8 +20,10 @@ export async function createLLMProvider(formData: FormData) {
 
 export async function updateLLMProvider(formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { error } = await supabase.from('llm_providers').update({
     name: formData.get('name') as string,
+    modified_by_user_id: user!.id,
   }).eq('id', formData.get('id') as string)
   if (error) return { error: error.message }
   revalidatePath('/llm/providers')
@@ -37,11 +42,14 @@ export async function deleteLLMProvider(id: number) {
 
 export async function createLLMModel(formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { error } = await supabase.from('llm_models').insert({
     name: formData.get('name') as string,
     provider_model_id: formData.get('provider_model_id') as string,
     llm_provider_id: parseInt(formData.get('llm_provider_id') as string),
     is_temperature_supported: formData.get('is_temperature_supported') === 'true',
+    created_by_user_id: user!.id,
+    modified_by_user_id: user!.id,
   })
   if (error) return { error: error.message }
   revalidatePath('/llm/models')
@@ -50,11 +58,13 @@ export async function createLLMModel(formData: FormData) {
 
 export async function updateLLMModel(formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const { error } = await supabase.from('llm_models').update({
     name: formData.get('name') as string,
     provider_model_id: formData.get('provider_model_id') as string,
     llm_provider_id: parseInt(formData.get('llm_provider_id') as string),
     is_temperature_supported: formData.get('is_temperature_supported') === 'true',
+    modified_by_user_id: user!.id,
   }).eq('id', formData.get('id') as string)
   if (error) return { error: error.message }
   revalidatePath('/llm/models')

@@ -31,12 +31,15 @@ export async function createImage(formData: FormData) {
 
   if (!url) return { error: 'Either a file or a URL is required.' }
 
+  const { data: { user } } = await supabase.auth.getUser()
   const { error } = await supabase.from('images').insert({
     url,
     is_public: formData.get('is_public') === 'true',
     is_common_use: formData.get('is_common_use') === 'true',
     additional_context: (formData.get('additional_context') as string) || null,
     image_description: (formData.get('image_description') as string) || null,
+    created_by_user_id: user!.id,
+    modified_by_user_id: user!.id,
   })
 
   if (error) return { error: error.message }
@@ -46,6 +49,7 @@ export async function createImage(formData: FormData) {
 
 export async function updateImage(formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const id = formData.get('id') as string
 
   const { error } = await supabase
@@ -56,6 +60,7 @@ export async function updateImage(formData: FormData) {
       is_common_use: formData.get('is_common_use') === 'true',
       additional_context: (formData.get('additional_context') as string) || null,
       image_description: (formData.get('image_description') as string) || null,
+      modified_by_user_id: user!.id,
     })
     .eq('id', id)
 
